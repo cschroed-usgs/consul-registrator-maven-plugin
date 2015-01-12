@@ -45,7 +45,7 @@ public class ConsulRegistratorMojo extends AbstractMojo
      * ports in these strings.
      */
     @Parameter(property = "consul.registrator.check.contextPaths")
-    private String[] urls = null;
+    private String[] contextPaths = null;
     /**
      * If the *custom* script parameter is set, the *urls* parameter will be ignored
      */
@@ -69,31 +69,35 @@ public class ConsulRegistratorMojo extends AbstractMojo
 	Registration.Check check = new Registration.Check();
 	check.setTtl(ttl);
 	check.setInterval(interval);
-	check.setScript(buildScript(customScript, urls));
+	check.setScript(buildScript(customScript, contextPaths, host, servicePort));
 	
 	registration.setCheck(check);
 	
 	agentClient.register(registration);
     }
-    protected String buildScript(String customScript, String[] urls){
+    public static final String PROTOCOL_PREFIX = "http://";
+    public static final String URL_COMMAND = "curl ";//trailing space in string intentional
+    protected String buildScript(String customScript, String[] contextPaths, String host, int servicePort){
 	String script = null;
-	if(!StringUtils.isEmpty(script)){
-	    if(!ArrayUtils.isEmpty(urls)){
+	if(!StringUtils.isEmpty(customScript)){
+	    if(!ArrayUtils.isEmpty(contextPaths)){
 		getLog().warn("Both *customScript* and *urls* parameters have been set. *customScript* will be used, *urls* will be ignored.");
 	    }
 	    script = customScript;
 	}
-	else if(!ArrayUtils.isEmpty(urls)){
+	else if(!ArrayUtils.isEmpty(contextPaths)){
 	    StrBuilder sb = new StrBuilder();
-	    sb.append("curl ");//trailing space in string intentional
-	    for(String url : urls){
+	    sb.append(URL_COMMAND);
+	    for(String contextPath : contextPaths){
 		//TODO: make protocol configurable
-		sb.append("http://");
-		sb.append(host);
-		sb.append(servicePort);
-		sb.append(url);
-		sb.append(' ');
+		sb.append(PROTOCOL_PREFIX)
+		.append(host)
+		.append(":")
+		.append(servicePort)
+		.append(contextPath)
+		.append(' ');
 	    }
+	    sb.trim();
 	    script = sb.build();
 	}
 	else{

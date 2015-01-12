@@ -5,6 +5,7 @@
  */
 package gov.usgs.cida;
 
+import org.apache.commons.lang3.text.StrBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +18,19 @@ import static org.junit.Assert.*;
  * @author cschroed
  */
 public class ConsulRegistratorMojoTest {
+    public static final ConsulRegistratorMojo instance = new ConsulRegistratorMojo();
+    public static final String HOST = "host";
+    public static final int PORT = 8123;
+    public static final String NON_CONTEXT_PATH = ConsulRegistratorMojo.PROTOCOL_PREFIX + HOST + ':' + PORT;
+    /**
+     * A wrapper for the real deal
+     * @param customScript
+     * @param contextPaths
+     * @return 
+     */
+    public static String buildScript(String customScript, String[] contextPaths){
+	return instance.buildScript(customScript, contextPaths, HOST, PORT);
+    }
     
     public ConsulRegistratorMojoTest() {
     }
@@ -38,31 +52,64 @@ public class ConsulRegistratorMojoTest {
     }
 
     /**
-     * Test of execute method, of class ConsulRegistratorMojo.
-     */
-    @org.junit.Test
-    public void testExecute() throws Exception {
-	System.out.println("execute");
-	ConsulRegistratorMojo instance = new ConsulRegistratorMojo();
-	instance.execute();
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of buildScript method, of class ConsulRegistratorMojo.
      */
+    
     @org.junit.Test
-    public void testBuildScript() {
-	System.out.println("buildScript");
-	String customScript = "";
-	String[] urls = null;
-	ConsulRegistratorMojo instance = new ConsulRegistratorMojo();
-	String expResult = "";
-	String result = instance.buildScript(customScript, urls);
+    public void testBuildScriptNullAndEmptyParams() {
+	String[] contextPaths = {};
+	String expResult = null;
+	String result;
+	result = buildScript(null, contextPaths);
 	assertEquals(expResult, result);
-	// TODO review the generated test code and remove the default call to fail.
-	fail("The test case is a prototype.");
+	
+	result = buildScript(null, null);
+	assertEquals(expResult, result);
+	
+	result = buildScript("", contextPaths);
+	assertEquals(expResult, result);
+	
+	result = buildScript("", null);
+	assertEquals(expResult, result);
+    }
+    
+    @org.junit.Test
+    public void testBuildScriptBothCustomScriptAndUrls() {
+	String customScript = "mkdir blah";
+	String[] contextPaths = {"/wow", "/big", "/time"};
+	String expResult = customScript;
+	String result = buildScript(customScript, contextPaths);
+	assertEquals(expResult, result);
+    }
+    
+    @org.junit.Test
+    public void testBuildScriptCustomScriptOnly() {
+	String customScript = "mkdir blah";
+	String expResult = customScript;
+	String result = buildScript(customScript, null);
+	assertEquals(expResult, result);
+	result = buildScript(customScript, new String[0]);
+	assertEquals(expResult, result);
+    }
+    
+    @org.junit.Test
+    public void testBuildScriptContextPathsOnly() {
+	String[] contextPaths = {"/wow", "/big", "/time"};
+	StrBuilder sb = new StrBuilder();
+	sb.append(ConsulRegistratorMojo.URL_COMMAND);
+	for(String contextPath : contextPaths){
+	    sb.append(NON_CONTEXT_PATH)
+	    .append(contextPath)
+	    .append(' ');
+	}
+	sb.trim();
+	
+	String expResult = sb.build();
+	
+	String result = buildScript(null, contextPaths);
+	assertEquals(expResult, result);
+	result = buildScript("", contextPaths);
+	assertEquals(expResult, result);
     }
     
 }
