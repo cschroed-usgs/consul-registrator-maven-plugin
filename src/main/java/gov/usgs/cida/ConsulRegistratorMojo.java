@@ -23,7 +23,6 @@ public class ConsulRegistratorMojo extends AbstractMojo
      */
     @Parameter(property = "consul.registrator.host")
     private String host;
-    
     @Parameter(property = "consul.registrator.consulPort", defaultValue = "8500")
     private int consulPort;
     @Parameter(property = "consul.registrator.servicePort", defaultValue = "8080")
