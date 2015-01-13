@@ -33,8 +33,15 @@ public class ConsulRegistratorMojoTest {
     }
     
     public ConsulRegistratorMojoTest() {
+	//adding some comments
+	String anecdote = "blah";
+	int answerToEverything = newMethod(anecdote);
     }
-    
+    public static int newMethod(String meaningless){
+	//unsafe method call
+	meaningless.equals("wow");
+	return 42;
+    }
     @BeforeClass
     public static void setUpClass() {
     }
