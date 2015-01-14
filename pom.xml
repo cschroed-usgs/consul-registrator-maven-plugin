@@ -6,7 +6,9 @@
     <packaging>maven-plugin</packaging>
     
     <name>Consul Registrator Maven Plugin</name>
-    
+    <scm>
+	<developerConnection>scm:git:git@github.com:USGS-CIDA/consul-registrator-maven-plugin.git</developerConnection>
+    </scm>
     <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -91,30 +93,30 @@
 		    </excludes>
 		</configuration>
 	    </plugin>
-	            <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-plugin-plugin</artifactId>
-            <version>3.3</version>
-            <configuration>
-                <goalPrefix>consul-registrator</goalPrefix>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>default-descriptor</id>
-                    <goals>
-                        <goal>descriptor</goal>
-                    </goals>
-                    <phase>process-classes</phase>
-                </execution>
-                <execution>
-                    <id>help-descriptor</id>
-                    <goals>
-                        <goal>helpmojo</goal>
-                    </goals>
-                    <phase>process-classes</phase>
-                </execution>
-            </executions>
-        </plugin>
+	    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-plugin-plugin</artifactId>
+		<version>3.3</version>
+		<configuration>
+		    <goalPrefix>consul-registrator</goalPrefix>
+		</configuration>
+		<executions>
+		    <execution>
+			<id>default-descriptor</id>
+			<goals>
+			    <goal>descriptor</goal>
+			</goals>
+			<phase>process-classes</phase>
+		    </execution>
+		    <execution>
+			<id>help-descriptor</id>
+			<goals>
+			    <goal>helpmojo</goal>
+			</goals>
+			<phase>process-classes</phase>
+		    </execution>
+		</executions>
+	    </plugin>
 	</plugins>
 	
     </build>
