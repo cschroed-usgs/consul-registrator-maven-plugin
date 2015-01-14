@@ -21,13 +21,13 @@ public class ConsulRegistratorMojo extends AbstractMojo
      * Note that Orbitz' consul-client assumes that the service host and the 
      * consul agent host are the same.
      */
-    @Parameter(property = "consul.registrator.host")
+    @Parameter(property = "consul.registrator.host", required = true)
     private String host;
     @Parameter(property = "consul.registrator.consulPort", defaultValue = "8500")
     private int consulPort;
     @Parameter(property = "consul.registrator.servicePort", defaultValue = "8080")
     private int servicePort;
-    @Parameter(property = "consul.registrator.serviceName")
+    @Parameter(property = "consul.registrator.serviceName", required = true)
     private String serviceName;
     @Parameter(property = "consul.registrator.serviceId")
     private String serviceId = null;
@@ -53,6 +53,9 @@ public class ConsulRegistratorMojo extends AbstractMojo
     
     public void execute() throws MojoExecutionException
     {
+	realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
+    }
+    protected void realDeal(String host, int consulPort, String serviceId, String serviceName, int servicePort, String[] tags, String ttl, String interval, String customScript, String[] contextPaths) {
 	Consul consul = Consul.newClient(host, consulPort);
 	
 	AgentClient agentClient = consul.agentClient();

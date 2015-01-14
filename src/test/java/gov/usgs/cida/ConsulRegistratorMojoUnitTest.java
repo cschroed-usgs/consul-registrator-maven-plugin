@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  *
  * @author cschroed
  */
-public class ConsulRegistratorMojoTest {
+public class ConsulRegistratorMojoUnitTest {
     public static final ConsulRegistratorMojo instance = new ConsulRegistratorMojo();
     public static final String HOST = "host";
     public static final int PORT = 8123;
@@ -32,7 +32,7 @@ public class ConsulRegistratorMojoTest {
 	return instance.buildScript(customScript, contextPaths, HOST, PORT);
     }
     
-    public ConsulRegistratorMojoTest() {
+    public ConsulRegistratorMojoUnitTest() {
     }
     
     @BeforeClass
