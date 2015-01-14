@@ -2,6 +2,10 @@ This maven plugin permits registration of a service with a consul agent.
 
 Requirements: a consul agent must be running and listening on the service host.
 
+===
+USAGE
+===
+
 Invocation:
 
 ```mvn gov.cida.usgs:consul-registrator -Doption1=...```
@@ -16,6 +20,17 @@ consul.registrator.serviceId
 consul.registrator.tags
 consul.registrator.check.ttl
 consul.registrator.check.interval
+
+
+Examples:
+
+```mvn gov.usgs.cida:consul-registrator-maven-plugin:1.0-SNAPSHOT:register -Dconsul.registrator.host="localhost" -Dconsul.registrator.serviceName="testService1" -Dconsul.registrator.tags="1.0-SNAPSHOT,super" -Dconsul.contextPaths="/service/data/health,/service/report/health"```
+
+```mvn gov.usgs.cida:consul-registrator-maven-plugin:1.0-SNAPSHOT:register -Dconsul.registrator.host="localhost" -Dconsul.registrator.serviceName="testService1" -Dconsul.registrator.tags="1.0-SNAPSHOT,PrettyCool" -Dconsul.registrator.ttl="10s"```
+
+===
+DEVELOPMENT
+===
 
 To run unit tests:
 ```mvn test```
