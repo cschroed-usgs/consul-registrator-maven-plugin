@@ -8,7 +8,7 @@ USAGE
 
 Invocation:
 
-```mvn gov.cida.usgs:consul-registrator -Doption1=...```
+```mvn gov.usgs.cida:consul-registrator-maven-plugin:register -Doption1=...```
 
 Options are:
 
@@ -23,11 +23,28 @@ Options are:
 * consul.registrator.check.contextPaths - the context paths of http health check endpoints. A context path is everything after the port number in a url. This parameter is ignored if `consul.registrator.check.customScript` is specified.
 * consul.registrator.check.customScript - custom script that consul will attempt to execute as a check. If this parameter is specified, `consul.registrator.check.contextPaths` will be ignored.
 
+
+You must specify one form of check -- either `specify consul.registrator.check.ttl` or `consul.registrator.check.contextPaths` or `consul.registrator.check.customScript`
+
+
 Examples:
+```
+mvn gov.usgs.cida:consul-registrator-maven-plugin:register \
+-Dconsul.registrator.host="localhost" \
+-Dconsul.registrator.serviceName="testService1" \
+-Dconsul.registrator.tags="1.0-SNAPSHOT,super" \
+-Dconsul.contextPaths="/service/data/health,/service/report/health"
+```
 
-```mvn gov.usgs.cida:consul-registrator-maven-plugin:1.0-SNAPSHOT:register -Dconsul.registrator.host="localhost" -Dconsul.registrator.serviceName="testService1" -Dconsul.registrator.tags="1.0-SNAPSHOT,super" -Dconsul.contextPaths="/service/data/health,/service/report/health"```
+```
+mvn gov.usgs.cida:consul-registrator-maven-plugin:register \
+consul.registrator.host="localhost" \
+consul.registrator.serviceName="testService1" \
+consul.registrator.tags="1.0-SNAPSHOT,PrettyCool" \
+consul.registrator.ttl="10s"
+```
 
-```mvn gov.usgs.cida:consul-registrator-maven-plugin:1.0-SNAPSHOT:register -Dconsul.registrator.host="localhost" -Dconsul.registrator.serviceName="testService1" -Dconsul.registrator.tags="1.0-SNAPSHOT,PrettyCool" -Dconsul.registrator.ttl="10s"```
+You can also add this plugin to a pom and specify parameter values in the plugin's <configuration> element.
 
 ===
 DEVELOPMENT
