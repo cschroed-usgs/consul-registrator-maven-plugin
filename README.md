@@ -44,7 +44,7 @@ consul.registrator.tags="1.0-SNAPSHOT,PrettyCool" \
 consul.registrator.ttl="10s"
 ```
 
-You can also add this plugin to a pom and specify parameter values in the plugin's <configuration> element.
+You can also add this plugin to a pom and specify parameter values in the plugin's configuration element.
 
 ===
 DEVELOPMENT
