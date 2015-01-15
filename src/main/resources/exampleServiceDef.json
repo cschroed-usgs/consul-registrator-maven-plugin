@@ -1,0 +1,6 @@
+{
+    "name": "bit-manipulator",
+    "version": "1.0.1-SNAPSHOT",
+    "tags": ["cool", "allright"],
+    "healthUrl" : "/health"
+}
