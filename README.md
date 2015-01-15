@@ -20,8 +20,8 @@ Options are:
 * consul.registrator.tags
 * consul.registrator.check.ttl
 * consul.registrator.check.interval
-* consul.registrator.check.contextPaths - the context paths of http health check endpoints. A context path is everything after the port number in a url.
-* consul.registrator.check.customScript - custom script that consul will attempt to execute as a check
+* consul.registrator.check.contextPaths - the context paths of http health check endpoints. A context path is everything after the port number in a url. This parameter is ignored if `consul.registrator.check.customScript` is specified.
+* consul.registrator.check.customScript - custom script that consul will attempt to execute as a check. If this parameter is specified, `consul.registrator.check.contextPaths` will be ignored.
 
 Examples:
 
