@@ -10,7 +10,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.apache.maven.plugins.annotations.Parameter;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.net.URL;
 /**
  * Registers a service with a consul agent.
  */
@@ -51,11 +53,50 @@ public class ConsulRegistratorMojo extends AbstractMojo
     @Parameter(property = "consul.registrator.check.customScript")
     private String customScript = null;
     
-    public void execute() throws MojoExecutionException
+    @Parameter(property = "consul.registrator.infoUrl")
+    private String infoUrl = null;
+    
+    public void execute() throws MojoExecutionException{
     {
-	realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
+	realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths, infoUrl);
     }
-    protected void realDeal(String host, int consulPort, String serviceId, String serviceName, int servicePort, String[] tags, String ttl, String interval, String customScript, String[] contextPaths) {
+    
+    /**
+     *
+     * @param host
+     * @param consulPort
+     * @param serviceId
+     * @param serviceName
+     * @param servicePort
+     * @param tags
+     * @param ttl
+     * @param interval
+     * @param customScript
+     * @param contextPaths
+     * @param infoUrl
+     * @throws MojoExecutionException
+     */
+    protected void realDeal(
+	    String host, 
+	    int consulPort, 
+	    String serviceId, 
+	    String serviceName, 
+	    int servicePort, 
+	    String[] tags, 
+	    String ttl, 
+	    String interval, 
+	    String customScript, 
+	    String[] contextPaths, 
+	    String infoUrl) throws MojoExecutionException {
+	ObjectMapper mapper = new ObjectMapper();
+	ConsulRegistratorInfo info = null;
+	try{
+	     info = mapper.readValue(new URL(infoUrl), ConsulRegistratorInfo.class);
+	}
+	catch(IOException ioX){
+	    throw new MojoExecutionException("Error Retrieving Info", ioX);
+	}
+	
 	Consul consul = Consul.newClient(host, consulPort);
 	
 	AgentClient agentClient = consul.agentClient();

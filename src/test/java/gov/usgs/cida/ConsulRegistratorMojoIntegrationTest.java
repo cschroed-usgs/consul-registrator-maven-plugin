@@ -5,6 +5,8 @@
  */
 package gov.usgs.cida;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 /**
  *
  * @author cschroed
@@ -16,7 +18,7 @@ public class ConsulRegistratorMojoIntegrationTest {
     public static final String NON_CONTEXT_PATH = ConsulRegistratorMojo.PROTOCOL_PREFIX + HOST + ':' + PORT;
     
     @org.junit.Test
-    public void testRealDeal(){
+    public void testRealDeal() throws MojoExecutionException{
 	String host = "localhost";
 	int consulPort = 8500;
 	String serviceId = null;
@@ -27,7 +29,7 @@ public class ConsulRegistratorMojoIntegrationTest {
 	String interval = null;
 	String customScript = null;
 	String[] contextPaths = {"/service/health/"};
-	instance.realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
+	instance.realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths, "");
     }
     
 }
