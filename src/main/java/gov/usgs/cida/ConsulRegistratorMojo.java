@@ -78,7 +78,7 @@ public class ConsulRegistratorMojo extends AbstractMojo
 	agentClient.register(registration);
     }
     public static final String PROTOCOL_PREFIX = "http://";
-    public static final String URL_COMMAND = "curl -f -L --verbose ";//trailing space in string intentional
+    public static final String URL_COMMAND = "2>&1 curl -fLvsS ";//trailing space in string intentional
     protected String buildScript(String customScript, String[] contextPaths, String host, int servicePort){
 	String script = null;
 	if(!StringUtils.isEmpty(customScript)){
