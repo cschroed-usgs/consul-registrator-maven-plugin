@@ -69,10 +69,13 @@ public class ConsulRegistratorMojo extends AbstractMojo
 	registration.setTags(tags);
 	
 	Registration.Check check = new Registration.Check();
-	check.setTtl(ttl);
-	check.setInterval(interval);
-	check.setScript(buildScript(customScript, contextPaths, host, servicePort));
-	
+	if(!StringUtils.isEmpty(ttl)){
+	    check.setTtl(ttl);
+	}
+	if(!StringUtils.isEmpty(customScript) || !ArrayUtils.isEmpty(contextPaths)){
+	    check.setInterval(interval);
+	    check.setScript(buildScript(customScript, contextPaths, host, servicePort));
+	}
 	registration.setCheck(check);
 	
 	agentClient.register(registration);

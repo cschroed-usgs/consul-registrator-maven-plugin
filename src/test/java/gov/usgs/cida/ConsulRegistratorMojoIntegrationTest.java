@@ -23,8 +23,8 @@ public class ConsulRegistratorMojoIntegrationTest {
 	String serviceName = "testService";
 	int servicePort = 8080;
 	String[] tags = {"1.0-SNAPSHOT"};
-	String ttl = "30s";
-	String interval = null;
+	String ttl = "";
+	String interval = "5s";
 	String customScript = null;
 	String[] contextPaths = {"/service/health/"};
 	instance.realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
