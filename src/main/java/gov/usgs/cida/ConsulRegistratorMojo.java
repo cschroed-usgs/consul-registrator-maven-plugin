@@ -30,8 +30,8 @@ public class ConsulRegistratorMojo extends AbstractMojo
     private int servicePort;
     @Parameter(property = "consul.registrator.serviceName", required = true)
     private String serviceName;
-    @Parameter(property = "consul.registrator.serviceId")
-    private String serviceId = null;
+    @Parameter(property = "consul.registrator.customServiceId")
+    private String customServiceId = null;
     @Parameter(property = "consul.registrator.tags")
     private String[] tags;
     @Parameter(property = "consul.registrator.check.ttl")
@@ -54,15 +54,15 @@ public class ConsulRegistratorMojo extends AbstractMojo
     
     public void execute() throws MojoExecutionException
     {
-	realDeal(host, consulPort, serviceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
+	realDeal(host, consulPort, customServiceId, serviceName, servicePort, tags, ttl, interval, customScript, contextPaths);
     }
-    protected void realDeal(String host, int consulPort, String serviceId, String serviceName, int servicePort, String[] tags, String ttl, String interval, String customScript, String[] contextPaths) {
+    protected void realDeal(String host, int consulPort, String customServiceId, String serviceName, int servicePort, String[] tags, String ttl, String interval, String customScript, String[] contextPaths) {
 	Consul consul = Consul.newClient(host, consulPort);
 	
 	AgentClient agentClient = consul.agentClient();
 	Registration registration = new Registration();
 	
-	String myServiceId = makeServiceId(serviceName, serviceId);
+	String myServiceId = makeServiceId(serviceName, customServiceId);
 	registration.setId(myServiceId);
 
 	registration.setPort(servicePort);

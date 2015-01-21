@@ -16,12 +16,12 @@ Options are:
 * consul.registrator.consulPort - defaultValue = "8500"
 * consul.registrator.servicePort - defaultValue = "8080"
 * consul.registrator.serviceName - required
-* consul.registrator.serviceId
-* consul.registrator.tags
-* consul.registrator.check.ttl
-* consul.registrator.check.interval
+* consul.registrator.customServiceId - optional, if not provided the serviceId will default to a concatenation of the service name and a random UUID
+* consul.registrator.tags - optional, but highly reccommended. Version strings could go here.
+* consul.registrator.check.ttl - optional string describing the time and unit of the duration between TTL checks. Example: "10s".
+* consul.registrator.check.interval - optional string describing the time and unit of the duration between contextPath or customScript checks. Example: "10s".
 * consul.registrator.check.contextPaths - the context paths of http health check endpoints. A context path is everything after the port number in a url. This parameter is ignored if `consul.registrator.check.customScript` is specified.
-* consul.registrator.check.customScript - custom script that consul will attempt to execute as a check. If this parameter is specified, `consul.registrator.check.contextPaths` will be ignored.
+* consul.registrator.check.customScript - custom script that consul will attempt to execute as a check. This is the same as a [consul check definition's "script" option](https://www.consul.io/docs/agent/checks.html). If this parameter is specified, `consul.registrator.check.contextPaths` will be ignored.
 
 
 You must specify one form of check -- either `specify consul.registrator.check.ttl` or `consul.registrator.check.contextPaths` or `consul.registrator.check.customScript`
