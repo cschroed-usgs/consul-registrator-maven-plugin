@@ -5,6 +5,7 @@
  */
 package gov.usgs.cida;
 
+import java.util.UUID;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -111,5 +112,33 @@ public class ConsulRegistratorMojoUnitTest {
 	result = buildScript("", contextPaths);
 	assertEquals(expResult, result);
     }
+    
+    @org.junit.Test
+    public void testBlankCustomServiceId(){
+	String serviceName = "mySuperService";
+	String[] customServiceIds = {null, ""};
+	for(String customServiceId : customServiceIds){
+	    String result = ConsulRegistratorMojo.makeServiceId(serviceName, customServiceId);
+	    assert(result).startsWith(serviceName);
+	    String UuidCandidate = result.substring(serviceName.length());
+	    try{
+		UUID myUuid = UUID.fromString(UuidCandidate);
+	    }
+	    catch(IllegalArgumentException ex){
+		//candidate was not a uuid
+		fail();
+	    }
+	}
+    }
+     @org.junit.Test
+    public void testCustomServiceId(){
+	String serviceName = "greatService";
+	String customServiceId = "myGreatId";
+	String expected = customServiceId;
+	
+	String result = ConsulRegistratorMojo.makeServiceId(serviceName, customServiceId);
+	assertEquals(expected, result);
+    }
+    
     
 }

@@ -6,6 +6,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import com.orbitz.consul.Consul;
 import com.orbitz.consul.model.agent.Registration;
+import java.util.UUID;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrBuilder;
@@ -61,7 +62,7 @@ public class ConsulRegistratorMojo extends AbstractMojo
 	AgentClient agentClient = consul.agentClient();
 	Registration registration = new Registration();
 	
-	String myServiceId = (StringUtils.isEmpty(serviceId)) ? serviceName : serviceId;
+	String myServiceId = makeServiceId(serviceName, serviceId);
 	registration.setId(myServiceId);
 
 	registration.setPort(servicePort);
@@ -109,5 +110,13 @@ public class ConsulRegistratorMojo extends AbstractMojo
 	    getLog().debug("No check defined");
 	}
 	return script;
+    }
+    public static String makeServiceId(String serviceName, String customServiceId){
+	if (StringUtils.isEmpty(customServiceId)){
+	    return serviceName + UUID.randomUUID();
+	}
+	else{
+	    return customServiceId;
+	}
     }
 }
