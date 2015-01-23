@@ -31,6 +31,22 @@
 	    <name>bintray-plugins</name>
 	    <url>http://jcenter.bintray.com</url>
 	</pluginRepository>
+	<pluginRepository>
+	    <id>cida-public-releases</id>
+	    <snapshots>
+		<enabled>false</enabled>
+	    </snapshots>
+	    <name>CIDA Public Releases</name>
+	    <url>http://cida.usgs.gov/maven/cida-public-releases/</url>
+	</pluginRepository>
+	<pluginRepository>
+	    <id>cida-public-snapshots</id>
+	    <snapshots>
+		<enabled>true</enabled>
+	    </snapshots>
+	    <name>CIDA Public Snapshots</name>
+	    <url>http://cida.usgs.gov/maven/cida-public-snapshots/</url>
+	</pluginRepository>
     </pluginRepositories>
 
     <distributionManagement>
